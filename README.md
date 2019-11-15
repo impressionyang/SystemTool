@@ -24,7 +24,7 @@ RepoName                                //分支目录
   
 
 <center>
-<img src="system_tool/src/images/impressionyang_logo.svg" style="zoom:50%"/>
+<img src="system_tool/src/images/impressionyang_logo.png" style="zoom:2%"/>
 </center>
 
 <center>copyright&copy;impressionyang</center>
