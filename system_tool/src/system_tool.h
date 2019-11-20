@@ -22,59 +22,66 @@
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QWidget>
-#include <QtDebug>
+#include <QThread>
+#include <cmath>
 #include "circle_progres_bar.h"
 #include "mainwindow.h"
 #include "welcom_robot.h"
 #include "system_info.h"
+#include "sysinfopanel.h"
+#include "updatesysinfo.h"
+
+using namespace std;
 
 class SystemTool : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-  SystemTool(QWidget *parent = nullptr);
-  ~SystemTool();
+public:
+    SystemTool(QWidget *parent = nullptr);
+    ~SystemTool() override;
 
- private:
-  Mainwindow *main_window;
-  QTimer *timer;
-  QTimer *timer2;
-  welcom_robot *robot;
-  QLabel *label_show_image;
-  QPixmap app_main_icon;
-  QPoint relativePos;
-  QSystemTrayIcon *tray_icon;
-  QMenu menu;  //右键按钮
-  QMenu *tray_menu;
-  QLabel *show_today;
-  int menu_click_times;
-  QRect screenRect;
-  int info_use_temp;
-  int timer_count;
+private:
+    SysInfoPanel *sys_info_panel;
+    Mainwindow *main_window;
+    QTimer *timer;
+    QTimer *timer2;
+    welcom_robot *robot;
+    QLabel *label_show_image;
+    QPixmap app_main_icon;
+    QPoint relativePos;
+    QSystemTrayIcon *tray_icon;
+    QMenu menu;  //右键按钮
+    QMenu *tray_menu;
+    QLabel *show_today;
+    int menu_click_times;
+    QRect screenRect;
+    int info_use_temp;
+    int timer_count;
+    UpdateSysInfo *updatesysinfo;
 
-  double last_cpu;
-  double cpu_step;
-  double last_mem;
-  double mem_step;
+    double last_cpu;
+    double cpu_step;
+    double last_mem;
+    double mem_step;
 
-  System_Info *sys_info;
-  Circle_Progres_Bar *menary_bar;
-  Circle_Progres_Bar *cpu_bar;
-  Circle_Progres_Bar *storage_bar;
+    System_Info *sys_info;
+    Circle_Progres_Bar *menary_bar;
+    Circle_Progres_Bar *cpu_bar;
+    Circle_Progres_Bar *storage_bar;
 
-  void set_top_level(bool key);
-  void set_right_menu();
-  void set_tray_menu();
-  void set_circle_pro_show_anmation();
+    void set_top_level(bool key);
+    void set_right_menu();
+    void set_tray_menu();
+    void set_circle_pro_show_anmation();
 
- protected:
-  //   void paintEvent(QPaintEvent*);
-  void mousePressEvent(QMouseEvent *event);
-  void mouseMoveEvent(QMouseEvent *event);
-  void focusInEvent(QFocusEvent *event) override;
-  void focusOutEvent(QFocusEvent *event) override;
-  void enterEvent(QEvent *event) override;
-  void leaveEvent(QEvent *event) override;
+protected:
+    //   void paintEvent(QPaintEvent*);
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
+    void focusOutEvent(QFocusEvent *event) override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 };
 
 

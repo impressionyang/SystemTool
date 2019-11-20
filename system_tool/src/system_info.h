@@ -20,7 +20,7 @@ class System_Info {
     double stor;
     double encodecpu(QString);
     double encodemem(QString);
-    double encodedf(QString);
+    int encodedf(QString);
 
     QList<int>* getMemNumberList(QString);
     QList<double>* getCPUNumberList(QString);

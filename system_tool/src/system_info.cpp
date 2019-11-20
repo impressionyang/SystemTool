@@ -82,6 +82,24 @@ double System_Info::encodemem(QString input){
     return mem;
 }
 
+int System_Info::encodedf(QString input){
+    QList<int> *list=this->getStorNumberList(input);
+    int result=0;
+    if(list->length()>1){
+        result=list->at(1);
+    }else {
+        result=list->at(0);
+    }
+
+//    for(int i:*list){
+//        qDebug()<<i<<endl;
+//    }
+
+//    qDebug()<<"result="<<result<<endl;
+
+    return result;
+}
+
 QList<int>* System_Info::getMemNumberList(QString get){
     QList<int> *list=new QList<int>();
     for(int i=0;i<get.length();i++){
@@ -138,6 +156,40 @@ QList<double>* System_Info::getCPUNumberList(QString get){
     return list;
 }
 
-double System_Info::encodedf(QString){
-    return 0;
+
+QList<int>* System_Info::getStorNumberList(QString get){
+    QList<int> *list=new QList<int>();
+    QTextStream in(&get);
+    QString get2=nullptr;
+    QString temp=in.readLine();
+    while(temp!=nullptr){
+        if(temp.indexOf("/home")>=0){
+//            qDebug()<<"/home="<<temp<<endl;
+            int i=temp.indexOf("%");
+            i=i-3;
+
+            QString temp2=nullptr;
+            for(int j=0;j<3;j++){
+                temp2=temp2+temp.at(i+j);
+            }
+            int temp3=temp2.toInt();
+            list->append(temp3);
+        }else if (temp.endsWith(" /")) {
+//            qDebug()<<"/="<<temp<<endl;
+            int i=temp.indexOf("%");
+            i=i-3;
+
+            QString temp2=nullptr;
+            for(int j=0;j<3;j++){
+                temp2=temp2+temp.at(i+j);
+            }
+            int temp3=temp2.toInt();
+            list->append(temp3);
+        }
+        temp=in.readLine();
+    }
+
+    return list;
 }
+
+

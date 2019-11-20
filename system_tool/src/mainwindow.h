@@ -8,19 +8,26 @@
 #include <QLabel>
 #include <QMainWindow>
 #include <QWidget>
+#include <QTimer>
+#include "sysinfopanel.h"
 
 class Mainwindow : public QWidget {
-  Q_OBJECT
- public:
-  explicit Mainwindow(QWidget *parent = nullptr);
-  ~Mainwindow();
+    Q_OBJECT
+public:
+    explicit Mainwindow(UpdateSysInfo *object, QWidget *parent = nullptr);
+    ~Mainwindow() override;
+    void showwindow(bool show);
 
- private:
-  QRect screenRect;
+private:
+    SysInfoPanel *sys_info_panel;
+    QTimer *timer;
+    QRect screenRect;
 
- signals:
+protected:
+    void closeEvent(QCloseEvent *event) override;
+signals:
 
- public slots:
+public slots:
 };
 
 #endif  // MAINWINDOW_H

@@ -8,11 +8,13 @@ Circle_Progres_Bar::Circle_Progres_Bar(QSize size, QWidget *parent)
                  Qt::X11BypassWindowManagerHint | Qt::Tool);
   this->size = size;
   this->progress = 0;
+  this->pen=new QPen(Qt::green, 8, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 
   QDesktopWidget *desktopWidget = QApplication::desktop();
   screenRect = desktopWidget->screenGeometry();
 
   progress_show_center = new QLabel("default");
+  progress_show_center->setMaximumWidth(size.width()/2);
   //  progress_show_center->move(screenRect.width() / 2 - this->size.width() /
   //  2,
   //                             screenRect.height() / 2 - this->size.height() /
@@ -41,6 +43,7 @@ Circle_Progres_Bar::Circle_Progres_Bar(QSize size, QWidget *parent)
 //     this->update();
 //  });
 //  t->start(time);
+//  this->set_pen(QColor(255,0,0),5);
 }
 
 void Circle_Progres_Bar::set_progress(double progress) {
@@ -57,6 +60,11 @@ void Circle_Progres_Bar::set_progress(double progress) {
 
 }
 
+void Circle_Progres_Bar::set_pen(QColor color, int width=8){
+    this->pen->setColor(color);
+    this->pen->setWidth(width);
+}
+
 void Circle_Progres_Bar::set_progress_show_center(QString content) {
   this->progress_show_center->setText(content);
   QFont font;
@@ -69,17 +77,18 @@ void Circle_Progres_Bar::paintEvent(QPaintEvent *event) {
   //  坐标系转换
   painter.setWindow(-width() / 2, height() / 2, width(), -height());
 
-  QPen pen;
+//  QPen pen;
 
-  pen.setStyle(Qt::SolidLine);
-  pen.setWidth(1);
-  pen.setBrush(Qt::black);
-  pen.setCapStyle(Qt::RoundCap);
-  pen.setJoinStyle(Qt::RoundJoin);
+//  pen.setStyle(Qt::SolidLine);
+//  pen.setWidth(1);
+//  pen.setBrush(Qt::black);
+//  pen.setCapStyle(Qt::RoundCap);
+//  pen.setJoinStyle(Qt::RoundJoin);
   //  painter.setPen(pen);
 
-  painter.setPen(
-      QPen(Qt::green, 8, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+  //反走样
+  painter.setRenderHint(QPainter::Antialiasing, true);
+  painter.setPen(*this->pen);
   QRectF rectangle(
       QPoint(-this->size.width() / 2 + 10, -this->size.height() / 2 + 10),
       QSize(this->size.width() - 20,
@@ -87,7 +96,7 @@ void Circle_Progres_Bar::paintEvent(QPaintEvent *event) {
   int startAngle = 0 * 16;               //起始角度
   int spanAngle ;
 //  = 3.6 * set * 16;   //跨越度数
-  if(set>=0){
+  if(progress>=0){
       spanAngle = 3.6 * progress * 16;
   }else {
 
